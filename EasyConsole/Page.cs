@@ -4,7 +4,7 @@ public abstract class Page
 {
   public string Title { get; }
 
-  public Program Program { get; set; } // TODO: musi tu byt verejny set?
+  public Program Program { get; }
 
   public Page(string title, Program program)
   {
