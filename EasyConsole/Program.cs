@@ -23,13 +23,12 @@ public abstract class Program
     BreadcrumbHeader = breadcrumbHeader;
   }
 
-  public virtual void Run()
+  public async Task RunAsync(CancellationToken cancellationToken = default)
   {
     try
     {
       Console.Title = Title;
-
-      CurrentPage?.Display();
+      await DisplayCurrentPageAsync(cancellationToken);
     }
     catch (Exception e)
     {
@@ -47,20 +46,24 @@ public abstract class Program
   public void AddPage(Page page)
   {
     Type pageType = page.GetType();
-
     if (_pages.ContainsKey(pageType))
+    {
       _pages[pageType] = page;
+    }
     else
+    {
       _pages.Add(pageType, page);
+    }
   }
 
-  public void NavigateHome()
+  public async Task NavigateHomeAsync(CancellationToken cancellationToken)
   {
     while (History.Count > 1)
+    {
       History.Pop();
-
+    }
     Console.Clear();
-    CurrentPage?.Display();
+    await DisplayCurrentPageAsync(cancellationToken);
   }
 
   public T? SetPage<T>() where T : Page
@@ -82,21 +85,26 @@ public abstract class Program
     return CurrentPage as T;
   }
 
-  public T? NavigateTo<T>() where T : Page
+  public async Task<T?> NavigateToAsync<T>(CancellationToken cancellationToken) where T : Page
   {
     SetPage<T>();
 
     Console.Clear();
-    CurrentPage?.Display();
+    await DisplayCurrentPageAsync(cancellationToken);
     return CurrentPage as T;
   }
 
-  public Page? NavigateBack()
+  public async Task<Page?> NavigateBackAsync(CancellationToken cancellationToken)
   {
     History.Pop();
-
     Console.Clear();
-    CurrentPage?.Display();
+    await DisplayCurrentPageAsync(cancellationToken);
     return CurrentPage;
+  }
+
+  private async Task DisplayCurrentPageAsync(CancellationToken cancellationToken)
+  {
+    Debug.Assert(CurrentPage is not null);
+    await (CurrentPage?.DisplayAsync(cancellationToken) ?? Task.CompletedTask);
   }
 }

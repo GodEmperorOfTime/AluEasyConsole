@@ -1,14 +1,15 @@
 ﻿using EasyConsole;
 
-namespace Demo.Pages
+namespace Demo.Pages;
+
+class Page1 : MenuPage
 {
-    class Page1 : MenuPage
-    {
-        public Page1(Program program)
-            : base("Page 1", program,
-                  new Option("Page 1A", () => program.NavigateTo<Page1A>()),
-                  new Option("Page 1B", () => program.NavigateTo<Page1B>()))
-        {
-        }
-    }
+    public Page1(EasyConsole.Program program) : base(
+      title: "Page 1", 
+      program: program,      
+      // options:
+        new Option("Page 1A", program.NavigateToAsync<Page1A>),
+        new Option("Page 1B", program.NavigateToAsync<Page1B>)
+      )
+    {  }
 }

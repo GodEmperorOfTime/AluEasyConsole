@@ -16,7 +16,7 @@ public abstract class Page
     Program = program ?? throw new ArgumentNullException(nameof(program));
   }
 
-  public virtual void Display()
+  public virtual Task DisplayAsync(CancellationToken cancellationToken)
   {
     if (Program.History.Count > 1 && Program.BreadcrumbHeader)
     {
@@ -31,5 +31,6 @@ public abstract class Page
       Console.WriteLine(Title);
     }
     Console.WriteLine("---");
+    return Task.CompletedTask;
   }
 }

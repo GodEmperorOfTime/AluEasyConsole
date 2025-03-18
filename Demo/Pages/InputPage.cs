@@ -1,31 +1,29 @@
 ﻿using EasyConsole;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Demo.Pages
+namespace Demo.Pages;
+
+class InputPage : Page
 {
-    class InputPage : Page
-    {
-        public InputPage(Program program)
-            : base("Input", program)
-        {
-        }
+  public InputPage(EasyConsole.Program program)
+      : base("Input", program)
+  { }
 
-        public override void Display()
-        {
-            base.Display();
+  public override async Task DisplayAsync(CancellationToken cancellationToken)
+  {
+    await base.DisplayAsync(cancellationToken);
+    Fruit input = await Input.ReadEnumAsync<Fruit>("Select a fruit");
+    Output.WriteLine(ConsoleColor.Green, "You selected {0}", input);
+    Input.ReadString("Press [Enter] to navigate home");
+    await Program.NavigateHomeAsync(cancellationToken);
+  }
+}
 
-            Fruit input = Input.ReadEnum<Fruit>("Select a fruit");
-            Output.WriteLine(ConsoleColor.Green, "You selected {0}", input);
-
-            Input.ReadString("Press [Enter] to navigate home");
-            Program.NavigateHome();
-        }
-    }
-
-    enum Fruit
-    {
-        Apple,
-        Banana,
-        Coconut
-    }
+enum Fruit
+{
+  Apple,
+  Banana,
+  Coconut
 }

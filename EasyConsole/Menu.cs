@@ -5,7 +5,7 @@ public class Menu
 
   readonly List<Option> _options = [];
 
-  public void Display()
+  public Task DisplayAsync(CancellationToken cancellationToken)
   {
     for (int i = 0; i < _options.Count; i++)
     {
@@ -13,13 +13,14 @@ public class Menu
     }
     int choice = Input.ReadInt("Choose an option:", min: 1, max: _options.Count);
 
-    _options[choice - 1].Callback();
+    return _options[choice - 1].InvokeAsync(cancellationToken);
   }
 
-  public Menu Add(string option, Action callback)
-  {
-    return Add(new Option(option, callback));
-  }
+  public Menu Add(string option, Func<CancellationToken, Task> callback) 
+    => Add(new(option, callback));
+
+  public Menu Add(string option, Action callback) 
+    => Add(new(option, callback));
 
   public Menu Add(Option option)
   {
@@ -27,8 +28,7 @@ public class Menu
     return this;
   }
 
-  public bool Contains(string option)
-  {
-    return _options.FirstOrDefault((op) => op.Name.Equals(option)) != null;
-  }
+  public bool Contains(string option) 
+    => _options.FirstOrDefault((op) => op.Name.Equals(option)) is not null;
+
 }

@@ -1,4 +1,6 @@
-﻿namespace EasyConsole;
+﻿using System.Diagnostics;
+
+namespace EasyConsole;
 
 public static class Input
 {
@@ -53,28 +55,29 @@ public static class Input
 		return key == 'y';
 	}
 
-	public static TEnum ReadEnum<TEnum>(string prompt) where TEnum : struct, IConvertible, IComparable, IFormattable
+	public static async Task<TEnum> ReadEnumAsync<TEnum>(
+    string prompt, CancellationToken cancellationToken = default
+    ) where TEnum : struct, IConvertible, IComparable, IFormattable
 	{
 		Type type = typeof(TEnum);
-
 		if (!type.IsEnum)
-			throw new ArgumentException("TEnum must be an enumerated type");
-
-		Output.WriteLine(prompt);
-		Menu menu = new Menu();
-
+    {
+      throw new ArgumentException("TEnum must be an enumerated type");
+    }
+    Output.WriteLine(prompt);
+		Menu menu = new ();
 		TEnum choice = default(TEnum);
 		foreach (var value in Enum.GetValues(type))
-  {
-    string? option = Enum.GetName(type, value);
-			if (option is not null)
+    {
+      string? option = Enum.GetName(type, value);
+      Debug.Assert(option is not null);
+      if (option is not null)
 			{
 				menu.Add(option, () => { choice = (TEnum)value; });
 			}
-  }
+    }
 
-  menu.Display();
-
-		return choice;
+  await menu.DisplayAsync(cancellationToken);
+  return choice;
 	}
 }
