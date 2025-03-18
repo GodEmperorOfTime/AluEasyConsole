@@ -25,7 +25,7 @@ namespace EasyConsole
 
 		public static int ReadInt()
 		{
-			string input = Console.ReadLine();
+			string? input = Console.ReadLine();
 			int value;
 
 			while (!int.TryParse(input, out value))
@@ -37,7 +37,7 @@ namespace EasyConsole
 			return value;
 		}
 
-		public static string ReadString(string prompt)
+		public static string? ReadString(string prompt)
 		{
 			Output.DisplayPrompt(prompt);
 			return Console.ReadLine();
@@ -67,8 +67,15 @@ namespace EasyConsole
 
 			TEnum choice = default(TEnum);
 			foreach (var value in Enum.GetValues(type))
-				menu.Add(Enum.GetName(type, value), () => { choice = (TEnum)value; });
-			menu.Display();
+      {
+        string? option = Enum.GetName(type, value);
+				if (option is not null)
+				{
+					menu.Add(option, () => { choice = (TEnum)value; });
+				}
+      }
+
+      menu.Display();
 
 			return choice;
 		}

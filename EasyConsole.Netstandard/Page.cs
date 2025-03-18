@@ -19,7 +19,7 @@ namespace EasyConsole
         {
             if (Program.History.Count > 1 && Program.BreadcrumbHeader)
             {
-                string breadcrumb = null;
+                string breadcrumb = string.Empty;
                 foreach (var title in Program.History.Select((page) => page.Title).Reverse())
                     breadcrumb += title + " > ";
                 breadcrumb = breadcrumb.Remove(breadcrumb.Length - 3);
