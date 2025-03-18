@@ -1,10 +1,9 @@
-﻿namespace EasyConsole
+﻿namespace EasyConsole;
+
+public static class StringExtensions
 {
-    public static class StringExtensions
-    {
-        public static string Format(this string format, params object[] args)
-        {
-            return string.Format(format, args);
-        }
-    }
+  public static string Format(this string format, params object[] args)
+  {
+    return string.Format(format, args);
+  }
 }

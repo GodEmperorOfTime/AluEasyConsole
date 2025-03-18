@@ -1,35 +1,35 @@
-﻿using System;
-using System.Linq;
+﻿namespace EasyConsole;
 
-namespace EasyConsole
+public abstract class Page
 {
-    public abstract class Page
+  public string Title { get; }
+
+  public Program Program { get; set; } // TODO: musi tu byt verejny set?
+
+  public Page(string title, Program program)
+  {
+    if (string.IsNullOrEmpty(title))
     {
-        public string Title { get; private set; }
-
-        public Program Program { get; set; }
-
-        public Page(string title, Program program)
-        {
-            Title = title;
-            Program = program;
-        }
-
-        public virtual void Display()
-        {
-            if (Program.History.Count > 1 && Program.BreadcrumbHeader)
-            {
-                string breadcrumb = string.Empty;
-                foreach (var title in Program.History.Select((page) => page.Title).Reverse())
-                    breadcrumb += title + " > ";
-                breadcrumb = breadcrumb.Remove(breadcrumb.Length - 3);
-                Console.WriteLine(breadcrumb);
-            }
-            else
-            {
-                Console.WriteLine(Title);
-            }
-            Console.WriteLine("---");
-        }
+      throw new ArgumentException($"'{nameof(title)}' cannot be null or empty.", nameof(title));
     }
+    Title = title;
+    Program = program ?? throw new ArgumentNullException(nameof(program));
+  }
+
+  public virtual void Display()
+  {
+    if (Program.History.Count > 1 && Program.BreadcrumbHeader)
+    {
+      string breadcrumb = string.Empty;
+      foreach (var title in Program.History.Select((page) => page.Title).Reverse())
+        breadcrumb += title + " > ";
+      breadcrumb = breadcrumb.Remove(breadcrumb.Length - 3);
+      Console.WriteLine(breadcrumb);
+    }
+    else
+    {
+      Console.WriteLine(Title);
+    }
+    Console.WriteLine("---");
+  }
 }

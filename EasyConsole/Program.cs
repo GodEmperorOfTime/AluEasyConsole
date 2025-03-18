@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 
 namespace EasyConsole;
 
 public abstract class Program
 {
+
+  readonly Dictionary<Type, Page> _pages = new();
+
   protected string Title { get; set; }
 
   public bool BreadcrumbHeader { get; private set; }
 
   protected Page? CurrentPage => History.TryPeek(out var r) ? r : null;
-
-  readonly Dictionary<Type, Page> _pages = new();
 
   public Stack<Page> History { get; } = new();
 

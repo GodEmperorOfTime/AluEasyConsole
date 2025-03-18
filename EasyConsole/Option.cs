@@ -1,21 +1,20 @@
-﻿using System;
+﻿namespace EasyConsole;
 
-namespace EasyConsole
+public class Option
 {
-    public class Option
+  public string Name { get; }
+  public Action Callback { get; }
+
+  public Option(string name, Action callback)
+  {
+    if (string.IsNullOrEmpty(name))
     {
-        public string Name { get; private set; }
-        public Action Callback { get; private set; }
-
-        public Option(string name, Action callback)
-        {
-            Name = name;
-            Callback = callback;
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+      throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
     }
+    Name = name;
+    Callback = callback ?? throw new ArgumentNullException(nameof(callback));
+  }
+
+  public override string ToString() => Name;
+
 }
