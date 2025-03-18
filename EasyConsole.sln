@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyConsole.Netstandard", "EasyConsole.Netstandard\EasyConsole.Netstandard.csproj", "{24D657E7-FEB9-4C09-8F3B-4DE3FDD86A1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyConsole", "EasyConsole\EasyConsole.csproj", "{24D657E7-FEB9-4C09-8F3B-4DE3FDD86A1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Netcore", "Demo.Netcore\Demo.Netcore.csproj", "{4DD649AF-D41C-4CA0-97D8-F89D8B8BD5BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{4DD649AF-D41C-4CA0-97D8-F89D8B8BD5BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
